@@ -1,0 +1,42 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Assignment1 {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		//1) Input a file of 10 int numbers.
+		Scanner sc = new Scanner(new File("Numbers.txt"));
+		int[] numbers = new int[10];
+		//2) Place them into an array
+		for(int i = 0; i < 10; i++)
+		numbers[i] = sc.nextInt();
+		System.out.print("The numbers are: ");
+		for(int i = 0; i < 10; i++)
+		System.out.print(numbers[i] + " ");
+		System.out.println();
+		//3.1) Total all numbers in array to = ASUM
+		int ASUM = 0;
+		for(int i = 0; i < 10; i++)
+		ASUM += numbers[i];
+		//3.2) compute SQRT of ASUM
+		double root = Math.sqrt(ASUM);
+		//3.3) Determine the number of numbers in the array that are > than SQRT(ASUM)
+		int greaterThanSQRT = 0;
+		for(int i = 0; i < 10; i++)
+		if(numbers[i] > root)
+		greaterThanSQRT++;
+		//3.4) Determine the number of numbers in the array that are < than SQRT(ASUM)
+		int lessThanSQRT = 0;
+		for(int i = 0; i < 10; i++)
+		if(numbers[i] < root)
+		lessThanSQRT++;
+		//4) Print results on console
+		System.out.println("There are " + greaterThanSQRT + " numbers above the square root of " + root);
+		System.out.println("There are " + lessThanSQRT + " numbers below the square root of " + root);
+		}
+
+	}
+
+
