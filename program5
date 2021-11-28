@@ -1,0 +1,122 @@
+import java.util.*;
+import java.io.*;
+class Node{ // node class
+        public int data;
+        public Node next;
+        public Node prev;
+        public Node(int data){
+                this.data = data;
+        }
+}
+class DoublyLinkedList{ // Doubly linked list class
+        private Node head;
+        // Insert at begining
+        void insertAtBegining(int data){
+                Node newNode = new Node(data);
+                if(head == null){ // if there is no node 
+                        this.head = newNode; // set this node as head node
+                        return ;
+                }
+                // set the head to next of new node
+                newNode.next = this.head;
+                // set head's prev to new node
+                this.head.prev = newNode;
+                // finally shift the head to first node
+                this.head = newNode;
+        }
+        void insertAtEnd(int data){
+                Node newNode = new Node(data);
+                if(this.head == null){//if there is no node
+                        this.head = newNode; // set new node as head node
+                        return ;
+                }
+                Node temp = this.head; 
+                while(temp.next != null){//otherwise go till last node
+                        temp = temp.next;
+                }
+                // set newnode prev as temp
+                newNode.prev = temp;
+                // and then current node next as new node
+                temp.next = newNode;
+        }
+        void insertInTheMiddle(int data){
+                if(this.head == null){ // if there is no node
+                        this.head = new Node(data);
+                        return;
+                }
+                Node temp = this.head;
+                int len = 0; // lenght of linked list
+                while(temp.next != null){
+                        len++;
+                        temp = temp.next;
+                        
+                }
+                if(len == 1){ // if only on element is the list
+                    insertAtBegining(data); // insert at beginning
+                    return;
+                }
+                len /= 2; // half the length
+                while(len > 0){
+                        temp = temp.prev; // go back ward half of length
+                        len--;
+                }
+                // new node
+                Node newNode = new Node(data);
+                // set new node next as current node next
+                newNode.next = temp.next;
+                // set new node prev as current node
+                newNode.prev = temp;
+                // set the current node next as new node
+                temp.next.prev = newNode;
+                // finally current node next as newNode
+                temp.next = newNode;
+        }
+        void show(){
+                Node temp = this.head;
+                while(temp != null){ // traverse until node is present
+                        if(temp.next == null)
+                                // if node is las node we do no have to print link
+                                System.out.print(temp.data);
+                        else // otherwise print data with link
+                                System.out.print(temp.data+" <-> ");
+                        temp = temp.next;
+                }
+                System.out.println(); // print new line
+
+        }
+
+}
+public class Main {
+        public static void main(String[] args) {
+                // input stream for reading a file
+                InputStream ips = null; // set to null otherwise
+                                     // compiler gives warning
+                try{// open the file
+                         ips = new FileInputStream("Nums.txt");
+                }catch(Exception e){ // we have to use try catch otherwise
+                        System.out.println(e);   //compiler gives error for  
+                }                           // unhandled exception
+
+        // scanner for reading data of file
+                Scanner sc = new Scanner(ips);
+                int i = 0; // counter
+                int data; // data to get input
+                // create new doubly linked list
+                DoublyLinkedList dll = new DoublyLinkedList();
+                while(sc.hasNextInt()){ // keep getting input until there is no int
+                        data = sc.nextInt();  // get the input
+                        // below is just to test all three method 
+                        if(i % 3 == 0){ // insrt at begining
+                                dll.insertAtBegining(data);
+                        }
+                        else if(i % 3 == 1){ // insert at end
+                                dll.insertAtEnd(data);
+                        }
+                        else{ // insert in the middle
+                                dll.insertInTheMiddle(data);
+                        }
+                        i++;
+                }
+                dll.show(); // print the dll
+        }
+}
